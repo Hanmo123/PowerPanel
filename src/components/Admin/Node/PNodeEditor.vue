@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import {computed, ref, watch} from "vue";
-import {admin} from "@/class/Client";
-import {useMessage} from "naive-ui";
+import {computed, ref, watch} from 'vue';
+import {admin} from '@/class/Client';
+import {useMessage} from 'naive-ui';
 import type {MentionOption} from 'naive-ui';
-import AllowSubmit from "@/components/AllowSubmit.vue";
-import PSelector from "@/components/PSelector.vue";
-import {ByteFormat} from "@/class/ByteFormat";
-import PSwitch from "@/components/PSwitch.vue";
+import AllowSubmit from '@/components/AllowSubmit.vue';
+import PSelector from '@/components/PSelector.vue';
+import {ByteFormat} from '@/class/ByteFormat';
+import PSwitch from '@/components/PSwitch.vue';
 
 const props = defineProps(['id']);
 const emits = defineEmits(['update:id', 'reload']);
@@ -17,7 +17,9 @@ const initData = {
     name: '',
     description: '',
     node_group_id: '',
-    endpoint: '',
+    host: '',
+    api_port: 0,
+    ws_port: 0,
     enable_tls: 0,
     node_token: '',
     panel_token: '',
@@ -102,7 +104,15 @@ const endpoint = window.location.origin;
                 </n-form-item>
 
                 <n-form-item label="连接地址">
-                    <n-input v-model:value="data.endpoint" placeholder="输入 IP:端口 / 域名:端口"/>
+                    <n-input v-model:value="data.host" placeholder="输入 IP/域名"/>
+                </n-form-item>
+
+                <n-form-item label="API 端口">
+                    <n-input-number v-model:value="data.api_port" placeholder="输入 API 端口"/>
+                </n-form-item>
+
+                <n-form-item label="WS 端口">
+                    <n-input-number v-model:value="data.ws_port" placeholder="输入 WS 端口"/>
                 </n-form-item>
 
                 <n-form-item label="启用 TLS">
@@ -162,8 +172,8 @@ const endpoint = window.location.origin;
                     <n-time :time="new Date(data.created_at)"/>
                 </n-form-item>
 
-                <n-form-item label="部署命令">
-                    <n-input :value="'./node ' + endpoint + ' ' + data.panel_token" type="textarea" autosize readonly/>
+                <n-form-item label="部署命令" v-if="!create">
+                    <n-input :value="'./node setup ' + endpoint + ' ' + data.panel_token" type="textarea" autosize readonly/>
                 </n-form-item>
 
                 <AllowSubmit/>
@@ -171,7 +181,10 @@ const endpoint = window.location.origin;
 
             <template #footer>
                 <n-button type="error" ghost @click="actions.delete()" v-if="!create">删除</n-button>
-                <n-button type="primary" text-color="white" @click="actions.confirm()">{{ create ? '创建' : '修改' }}</n-button>
+                <n-button type="primary" text-color="white" @click="actions.confirm()">{{
+                        create ? '创建' : '修改'
+                    }}
+                </n-button>
             </template>
         </n-drawer-content>
     </n-drawer>
