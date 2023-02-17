@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import {DataTableColumns, NTag, NText, NTime} from "naive-ui";
+import {NTag, NText, NTime} from "naive-ui";
+import type {DataTableColumns} from 'naive-ui';
 import {h, ref} from "vue";
 import PLink from "@/components/PLink.vue";
 import {InstanceStatus as S} from "@/class/Constant/Status";
@@ -9,6 +10,7 @@ import {admin} from "@/class/Client";
 interface Row {
     id: number
     name: string
+    uuid: string
     relationship: {
         user: {
             id: number

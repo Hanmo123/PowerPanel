@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import {computed, ref, watch} from "vue";
 import {admin} from "@/class/Client";
-import {MentionOption, useMessage} from "naive-ui";
+import type {MentionOption} from 'naive-ui';
+import {useMessage} from "naive-ui";
 import AllowSubmit from "@/components/AllowSubmit.vue";
 import PSelector from "@/components/PSelector.vue";
 

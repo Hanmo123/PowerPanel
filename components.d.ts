@@ -64,7 +64,6 @@ declare module '@vue/runtime-core' {
     PDetailTable: typeof import('./src/components/Instance/Console/PDetailTable.vue')['default']
     PFileEditor: typeof import('./src/components/Instance/Console/File/PFileEditor.vue')['default']
     PFileList: typeof import('./src/components/Instance/Console/File/PFileList.vue')['default']
-    PInstanceEditor: typeof import('./src/components/Admin/Node/PInstanceEditor.vue')['default']
     PInstanceList: typeof import('./src/components/Admin/Instance/PInstanceList.vue')['default']
     PLink: typeof import('./src/components/PLink.vue')['default']
     PNodeEditor: typeof import('./src/components/Admin/Node/PNodeEditor.vue')['default']

@@ -15,7 +15,7 @@ const load = () => admin.app.version.list().then(res => {
 const route = useRoute();
 const router = useRouter();
 
-let id;
+let id: any;
 
 useAuthData().listen(() => {
     load()

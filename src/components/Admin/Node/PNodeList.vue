@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import {DataTableColumns, NTag, NText, NTime} from "naive-ui";
+import {NTag, NText, NTime} from "naive-ui";
+import type {DataTableColumns} from 'naive-ui';
 import {h} from "vue";
 import {ByteFormat} from "@/class/ByteFormat";
 import PLink from "@/components/PLink.vue";

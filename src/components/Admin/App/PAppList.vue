@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-import {DataTableColumns, NTag, NTime} from "naive-ui";
-import {h} from "vue";
-import PLink from "@/components/PLink.vue";
+import {NTag, NTime} from 'naive-ui';
+import type {DataTableColumns} from 'naive-ui';
+import {h} from 'vue';
+import PLink from '@/components/PLink.vue';
 
 defineProps(['data']);
 
