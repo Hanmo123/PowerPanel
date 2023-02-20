@@ -229,13 +229,13 @@ const onEmptyMenu = () => {
                               @update:checked-row-keys="onCheck" :row-props="rowProps" class="table">
                     <template #empty>
                         <div class="text-center" v-if="!loading">
-                            <div class="text-gray-600">此目录下不存在文件，您可以</div>
+                            <div class="text-gray-600 notice">此目录下不存在文件，您可以</div>
                             <div class="actions mt-1">
                                 <n-dropdown trigger="click" :options="dropdown.items" class="min-w-[120px]"
                                             @select="dropdown.event.onSelect">
-                                    <n-button type="primary" text-color="white" ghost size="small" @click="onEmptyMenu">打开菜单</n-button>
+                                    <n-button type="primary" ghost size="small" @click="onEmptyMenu">打开菜单</n-button>
                                 </n-dropdown>
-                                <n-button type="primary" text-color="white" ghost @click="actions.enter('..')" size="small"
+                                <n-button type="primary" ghost @click="actions.enter('..')" size="small"
                                           v-if="path !== '/'">
                                     返回上层
                                 </n-button>
@@ -265,5 +265,9 @@ const onEmptyMenu = () => {
 <style scoped>
 .table .actions > *:not(:first-child) {
     margin-left: .4rem !important;
+}
+
+[theme-dark] .notice {
+    color: inherit;
 }
 </style>
