@@ -3,11 +3,11 @@ import {onMounted} from 'vue';
 import {useAuthData} from './stores/AuthStore';
 import {useRouter} from 'vue-router';
 import colors from 'tailwindcss/colors';
-import type {GlobalThemeOverrides} from "naive-ui";
-import GlobalMessage from "@/components/GlobalMessage.vue";
-import {darkTheme} from "naive-ui";
-import vhCheck from "vh-check";
-import {useDarkMode} from "@/stores/DarkModeStore";
+import type {GlobalThemeOverrides} from 'naive-ui';
+import GlobalMessage from '@/components/GlobalMessage.vue';
+import {darkTheme} from 'naive-ui';
+import vhCheck from 'vh-check';
+import {useDarkMode} from '@/stores/DarkModeStore';
 
 const AuthData = useAuthData();
 const router = useRouter();
@@ -44,7 +44,8 @@ const theme: GlobalThemeOverrides = {
 </script>
 
 <template>
-    <n-config-provider :theme="dark.status ? darkTheme : {}" :theme-overrides="theme">
+    <n-config-provider :theme="dark.status ? darkTheme : {}" :theme-overrides="theme"
+                       :theme-dark="dark.status || null">
         <n-message-provider>
             <GlobalMessage/>
             <RouterView/>
