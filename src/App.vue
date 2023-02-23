@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {onMounted} from 'vue';
+import {computed, onMounted} from 'vue';
 import {useAuthData} from './stores/AuthStore';
 import {useRouter} from 'vue-router';
 import colors from 'tailwindcss/colors';
@@ -25,22 +25,27 @@ onMounted(() => {
 
 const dark = useDarkMode();
 
-const theme: GlobalThemeOverrides = {
-    common: {
-        primaryColor: colors.indigo[500],
-        primaryColorHover: colors.indigo[500],
-        primaryColorPressed: colors.indigo[500],
-        primaryColorSuppl: colors.indigo[500]
-    },
-    Tabs: {
-        tabBorderColor: 'transparent',
-        tabTextColorLine: dark.status ? colors.gray[300] : '#767c82',
-        tabGapMediumLine: '24px'
-    },
-    Progress: {
-        fillColor: colors.indigo[500]
+const theme = computed<GlobalThemeOverrides>(() => {
+    return {
+        common: {
+            primaryColor: colors.indigo[500],
+            primaryColorHover: colors.indigo[500],
+            primaryColorPressed: colors.indigo[500],
+            primaryColorSuppl: colors.indigo[500],
+            ...(dark.status ? {
+                bodyColor: '#23272e'
+            } : {})
+        },
+        Tabs: {
+            tabBorderColor: 'transparent',
+            tabTextColorLine: dark.status ? colors.gray[300] : '#767c82',
+            tabGapMediumLine: '24px'
+        },
+        Progress: {
+            fillColor: colors.indigo[500]
+        }
     }
-};
+});
 </script>
 
 <template>

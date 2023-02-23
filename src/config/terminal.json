@@ -40,7 +40,7 @@
       "ansiRed": "#e05561",
       "ansiWhite": "#d7dae0",
       "ansiYellow": "#d18f52",
-      "background": "rgb(16, 16, 20)",
+      "background": "#23272e",
       "border": "#3e4452",
       "foreground": "#abb2bf",
       "selectionForeground": "#abb2bf30"

@@ -75,8 +75,8 @@ const actions = {
 }
 
 [theme-dark] .background {
-    background-color: #2f3542;
-    background-image: linear-gradient(#2f3542 62px, transparent 0), linear-gradient(90deg, #f1f2f6 2px, transparent 0);
+    background-color: #23272e;
+    background-image: linear-gradient(#23272e 62px, transparent 0), linear-gradient(90deg, #f1f2f6 2px, transparent 0);
 }
 
 .login-container {

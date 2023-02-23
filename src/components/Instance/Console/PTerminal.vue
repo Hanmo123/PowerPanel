@@ -1,15 +1,16 @@
 <script lang="ts" setup>
-import {Terminal} from "xterm";
-import {onMounted, onUnmounted, ref, watch} from "vue";
-import {FitAddon} from "xterm-addon-fit";
+import {Terminal} from 'xterm';
+import {computed, onMounted, onUnmounted, ref, watch} from 'vue';
+import {FitAddon} from 'xterm-addon-fit';
 import config from '@/config/terminal.json'
 import 'xterm/css/xterm.css';
-import colors from "tailwindcss/colors";
+import colors from 'tailwindcss/colors';
 import type {IWebSocketPacket} from '@/stores/Instance/WebSocketStore';
-import {useWebSocketStore} from "@/stores/Instance/WebSocketStore";
-import {Base64} from "@/class/Base64";
-import {InstanceStatus as S} from "@/class/Constant/Status";
-import {useDarkMode} from "@/stores/DarkModeStore";
+import {useWebSocketStore} from '@/stores/Instance/WebSocketStore';
+import {Base64} from '@/class/Base64';
+import {InstanceStatus as S} from '@/class/Constant/Status';
+import {useDarkMode} from '@/stores/DarkModeStore';
+import {useMessage} from 'naive-ui';
 
 const dark = useDarkMode();
 const terminal = new Terminal(config[dark.status ? 'onedark-pro-darker' : 'light']);
@@ -24,6 +25,7 @@ const tips = {
     [S.STOPPED]: '实例已关闭'
 };
 const WebSocketStore = useWebSocketStore();
+const message = useMessage();
 
 onMounted(() => {
     terminal.loadAddon(fitAddon);
@@ -37,16 +39,18 @@ onMounted(() => {
     fitAddon.fit();
 });
 
+const TerminalStyle = computed(() => '\x1b[1;33m[PowerPanel] \x1b[0;3' + (dark.status ? '9' : '0') + 'm');
+
 window.addEventListener('resize', () => fitAddon.fit());
 
 const cancel = WebSocketStore.listen((data: IWebSocketPacket) => {
     if (data.type in {'history': 1, 'stdout': 1}) {
         terminal.write(Base64.decode(data.data));
     } else if (data.type == 'status') {
-        if (data.msg)
-            terminal.writeln('\x1b[1;33m[PowerPanel] \x1b[0;3' + (dark.status ? '9' : '0') + 'm' + data.msg);
-        else
-            terminal.writeln('\x1b[1;33m[PowerPanel] \x1b[0;3' + (dark.status ? '9' : '0') + 'm' + (tips[data.data] ?? ''));
+        terminal.writeln(TerminalStyle.value + (tips[data.data] ?? ''));
+    } else if (data.type == 'message') {
+        terminal.writeln(TerminalStyle.value + data.data);
+        message.warning(data.data);
     }
 });
 
@@ -58,7 +62,7 @@ onUnmounted(() => {
 function onCommand() {
     WebSocketStore.send({
         type: 'stdin',
-        data: Base64.encode(command.value + "\n")
+        data: Base64.encode(command.value + '\n')
     });
     command.value = '';
 }
