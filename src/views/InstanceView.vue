@@ -1,13 +1,14 @@
 <script lang="ts" setup>
-import {useInstanceDetail} from "@/stores/Instance/DetailStore";
-import {useRoute, useRouter} from "vue-router";
-import {useAuthData} from "@/stores/AuthStore";
-import {ins} from "@/class/Client";
-import {computed, onUnmounted} from "vue";
-import PageContainer from "@/components/PageContainer.vue";
-import PageHeader from "@/components/PageHeader.vue";
-import {InstanceStatus as S} from "@/class/Constant/Status";
-import {useWebSocketStore} from "@/stores/Instance/WebSocketStore";
+import {useInstanceDetail} from '@/stores/Instance/DetailStore';
+import {useRoute, useRouter} from 'vue-router';
+import {useAuthData} from '@/stores/AuthStore';
+import {ins} from '@/class/Client';
+import {computed, onUnmounted} from 'vue';
+import PageContainer from '@/components/PageContainer.vue';
+import PageHeader from '@/components/PageHeader.vue';
+import {InstanceStatus as S} from '@/class/Constant/Status';
+import {useWebSocketStore} from '@/stores/Instance/WebSocketStore';
+import {InfoFilled} from '@vicons/material';
 
 const detail = useInstanceDetail();
 const WebSocketStore = useWebSocketStore();
@@ -91,6 +92,17 @@ const tab = computed({
     </PageContainer>
 
     <n-divider class="my-0"/>
+
+    <div class="mdui-container mt-4" v-if="detail.is_suspended">
+        <n-alert title="实例已被暂停" class="alert-info" type="info">
+            <template #icon>
+                <n-icon>
+                    <InfoFilled/>
+                </n-icon>
+            </template>
+            此实例已被设置为暂停，部分操作将不可用。
+        </n-alert>
+    </div>
 
     <RouterView/>
 </template>

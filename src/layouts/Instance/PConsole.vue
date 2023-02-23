@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import {onUnmounted} from "vue";
-import {useWebSocketStore} from "@/stores/Instance/WebSocketStore";
-import PStatus from "@/components/Instance/Console/PStatus.vue";
-import PTerminal from "@/components/Instance/Console/PTerminal.vue";
-import {useInstanceDetail} from "@/stores/Instance/DetailStore";
+import {onUnmounted} from 'vue';
+import {useWebSocketStore} from '@/stores/Instance/WebSocketStore';
+import PStatus from '@/components/Instance/Console/PStatus.vue';
+import PTerminal from '@/components/Instance/Console/PTerminal.vue';
+import {useInstanceDetail} from '@/stores/Instance/DetailStore';
 
 const detail = useInstanceDetail();
 const WebSocketStore = useWebSocketStore();

@@ -11,6 +11,7 @@ declare module '@vue/runtime-core' {
     GlobalMessage: typeof import('./src/components/GlobalMessage.vue')['default']
     LoadingBar: typeof import('./src/components/LoadingBar.vue')['default']
     NA: typeof import('naive-ui')['NA']
+    NAlert: typeof import('naive-ui')['NAlert']
     NBreadcrumb: typeof import('naive-ui')['NBreadcrumb']
     NBreadcrumbItem: typeof import('naive-ui')['NBreadcrumbItem']
     NButton: typeof import('naive-ui')['NButton']

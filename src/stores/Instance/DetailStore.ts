@@ -1,15 +1,16 @@
 import {defineStore} from 'pinia'
 
 interface IDetail {
-    loaded: boolean,
-    cpu: number | null,
-    disk: number | null,
-    id: number | null,
-    memory: number | null,
-    name: string | null,
-    uuid: string | null,
+    loaded: boolean
+    cpu: number | null
+    disk: number | null
+    id: number | null
+    memory: number | null
+    name: string | null
+    is_suspended: boolean | null
+    uuid: string | null
     allocation: {
-        alias: string | null,
+        alias: string | null
         port: number | null
     }
     status: number | null
@@ -21,6 +22,7 @@ export const useInstanceDetail = defineStore('InstanceDetail', {
         id: null,
         uuid: null,
         name: null,
+        is_suspended: null,
         cpu: null,
         memory: null,
         disk: null,

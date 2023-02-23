@@ -63,3 +63,27 @@ ul {
     margin-top: 0 !important;
     margin-bottom: 0 !important;
 }
+
+.alert-info .n-alert__border {
+    border-color: #a5b4fc !important;
+}
+
+.alert-info .n-alert__icon {
+    color: #6366f1 !important;
+}
+
+.alert-info .n-alert-body {
+    background-color: #eef2ff;
+}
+
+[theme-dark] .alert-info .n-alert__border {
+    border-color: #818cf8 !important;
+}
+
+[theme-dark] .alert-info .n-alert-body {
+    background-color: #6366f1;
+}
+
+[theme-dark] .alert-info .n-alert__icon {
+    color: #e0e7ff !important;
+}
