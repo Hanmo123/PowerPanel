@@ -4,7 +4,7 @@ import {computed, h, ref} from 'vue';
 import type {MenuOption} from 'naive-ui'
 import {NIcon} from 'naive-ui'
 import {onBeforeRouteUpdate, RouterLink, useRoute} from 'vue-router';
-import {useInstanceDetail} from "@/stores/Instance/DetailStore";
+import {useInstanceDetail} from '@/stores/Instance/DetailStore';
 import {
     AccountCircleOutlined,
     AppsRound,
@@ -12,9 +12,10 @@ import {
     DnsOutlined, ExitToAppFilled,
     MyLocationRound,
     SpaceDashboardOutlined
-} from "@vicons/material";
-import GridDots28Regular from "@/assets/icons/GridDots28Regular.vue";
-import {useDarkMode} from "@/stores/DarkModeStore";
+} from '@vicons/material';
+import GridDots28Regular from '@/assets/icons/GridDots28Regular.vue';
+import {useDarkMode} from '@/stores/DarkModeStore';
+import {useAuthData} from '@/stores/AuthStore';
 
 const sidebar = ref({
     left: false,
@@ -22,6 +23,7 @@ const sidebar = ref({
 });
 const detail = useInstanceDetail();
 const route = useRoute();
+const AuthData = useAuthData();
 
 function renderIcon(icon: Component) {
     return () => h(NIcon, {}, {default: () => h(icon)})
@@ -111,13 +113,13 @@ const sidebarOption = computed<{
             }]
         }],
         bottom: [{
-            label: () => h(RouterLink, {to: {name: 'auth.logout'}}, {default: () => '退出登录'}),
-            key: 'auth.logout',
-            icon: renderIcon(ExitToAppFilled)
-        }, {
             label: '切换' + (dark.status ? '浅' : '深') + '色',
             key: 'darkmode.toggle',
             icon: renderIcon(Brightness6Filled)
+        }, {
+            label: () => h(RouterLink, {to: {name: 'auth.logout'}}, {default: () => '退出登录'}),
+            key: 'auth.logout',
+            icon: renderIcon(ExitToAppFilled)
         }]
     }
 });
@@ -155,7 +157,7 @@ const action = computed({
                 Power
             </router-link>
             <div class="grow"></div>
-            <n-button text color="#fff">
+            <n-button text color="#fff" v-if="AuthData.is_admin">
                 <n-icon size="20" @click="sidebar.right = true">
                     <GridDots28Regular/>
                 </n-icon>
@@ -163,7 +165,7 @@ const action = computed({
         </header>
 
         <section>
-            <n-drawer v-model:show="sidebar.left" :default-width="268" placement="left">
+            <n-drawer v-model:show="sidebar.left" :default-width="268" placement="left" :auto-focus="false">
                 <div class="flex flex-col h-full">
                     <div class="flex items-center px-[22px] min-h-[60px] border-b border-solid"
                          :class="{'text-neutral-500': !dark.status, 'border-gray-400': dark.status, 'border-gray-200': !dark.status}">
@@ -178,7 +180,7 @@ const action = computed({
                             :indent="32"></n-menu>
                 </div>
             </n-drawer>
-            <n-drawer v-model:show="sidebar.right" :default-width="268" placement="right">
+            <n-drawer v-model:show="sidebar.right" :default-width="268" placement="right" :auto-focus="false" v-if="AuthData.is_admin">
                 <div class="flex items-center px-[22px] min-h-[60px] border-b border-solid"
                      :class="{'text-neutral-500': !dark.status, 'border-gray-400': dark.status, 'border-gray-200': !dark.status}">
                     <n-icon size="20">
