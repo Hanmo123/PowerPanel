@@ -79,8 +79,8 @@ const sidebarOption = computed<{
             key: 'admin.index',
             icon: renderIcon(SpaceDashboardOutlined)
         }, {
-            label: () => h(RouterLink, {to: {name: 'admin.instance'}}, {default: () => '实例管理'}),
-            key: 'admin.instance',
+            label: () => h(RouterLink, {to: {name: 'admin.instance.index'}}, {default: () => '实例管理'}),
+            key: 'admin.instance.index',
             icon: renderIcon(DnsOutlined)
         }, {
             label: () => h(RouterLink, {to: {name: 'admin.user.index'}}, {default: () => '用户管理'}),

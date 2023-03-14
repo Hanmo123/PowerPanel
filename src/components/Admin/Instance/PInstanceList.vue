@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import {NTag, NText, NTime} from "naive-ui";
+import {NTag, NTime} from 'naive-ui';
 import type {DataTableColumns} from 'naive-ui';
-import {h, ref} from "vue";
-import PLink from "@/components/PLink.vue";
-import {InstanceStatus as S} from "@/class/Constant/Status";
-import {useAuthData} from "@/stores/AuthStore";
-import {admin} from "@/class/Client";
+import {h} from 'vue';
+import PLink from '@/components/PLink.vue';
+import {InstanceStatus as S} from '@/class/Constant/Status';
+
+defineProps(['data']);
 
 interface Row {
     id: number
@@ -41,7 +41,12 @@ const columns: DataTableColumns<Row> = [{
     }
 }, {
     title: '名称', key: 'name', render(row: Row) {
-        return h(NText, {}, () => row.name || row.uuid.split('-')[0]);
+        return h(PLink, {
+            to: {
+                name: 'instance.detail',
+                params: {insId: row.id}
+            }
+        }, () => row.name || row.uuid.split('-')[0]);
     }
 }, {
     title: '所有用户', key: 'user', render(row: Row) {
@@ -66,7 +71,8 @@ const columns: DataTableColumns<Row> = [{
     }
 }, {
     title: '状态', key: 'status', render(row: Row) {
-        return h(NTag, {type: row.stats.status == S.RUNNING ? 'success' : 'info'}, () => {
+        return h(NTag, {type: row.stats ? row.stats.status == S.RUNNING ? 'success' : 'info' : 'warning'}, () => {
+            if (!row.stats) return '创建中';
             return {
                 [S.STARTING]: '启动中',
                 [S.RUNNING]: '运行中',
@@ -83,20 +89,13 @@ const columns: DataTableColumns<Row> = [{
 }, {
     title: '操作', key: 'action', render(row: Row) {
         return h(PLink, {
-            to: {name: 'admin.instance', params: {insId: row.id}},
+            to: {name: 'admin.instance.index', params: {insId: row.id}},
             element: 'button',
             size: 'small',
             'text-color': 'white'
         }, () => '修改');
     }
 }];
-const data = ref<Row[]>();
-
-useAuthData().listen(() => {
-    admin.ins.list().then(res => {
-        data.value = res.data.data;
-    });
-});
 </script>
 
 <template>

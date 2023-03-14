@@ -70,9 +70,9 @@ const dark = useDarkMode();
                             :class="dark.status ? ['border-gray-400'] : ['border-gray-200']"
                             v-for="ins in list" :key="ins.id">
                     <div class="text-lg flex items-center" :class="dark.status ? ['text-gray-300'] : ['text-gray-600']">
-                        <n-tag :type="statusChart[ins.stats.status].type" size="small"
+                        <n-tag :type="ins.stats ? statusChart[ins.stats.status].type : 'warning'" size="small"
                                class="mr-[.4rem]">
-                            {{ statusChart[ins.stats.status].slot }}
+                            {{ ins.stats ? statusChart[ins.stats.status].slot : '创建中' }}
                         </n-tag>
                         {{ (ins.name) || ins.uuid.split('-')[0] }}
                     </div>

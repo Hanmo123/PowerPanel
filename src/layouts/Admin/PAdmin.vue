@@ -83,7 +83,7 @@ const dark = useDarkMode();
                 <n-number-animation :duration="1500" :to="data?.instance.count.total"/>
             </template>
             <template #action>
-                <PLink element="button" :to="{name: 'admin.instance'}" ghost>
+                <PLink element="button" :to="{name: 'admin.instance.index'}" ghost>
                     管理实例
                     <n-icon class="ml-1">
                         <ArrowForwardOutlined/>

@@ -1,6 +1,6 @@
 import {useAuthData} from '@/stores/AuthStore';
 import axios from 'axios';
-import AppConfig from "../../app.config";
+import AppConfig from '../../app.config';
 
 function Get(url: string, params: {}) {
     const AuthStore = useAuthData();
@@ -134,6 +134,18 @@ const admin = {
     ins: {
         list() {
             return Get('/api/admin/ins', {});
+        },
+        create(data: any) {
+            return Post('/api/admin/ins', data);
+        },
+        detail(id: number) {
+            return Get('/api/admin/ins/' + id, {});
+        },
+        update(id: number, data: any) {
+            return Put('/api/admin/ins/' + id, data);
+        },
+        delete(id: number) {
+            return Delete('/api/admin/ins/' + id, {});
         }
     },
     node: {
@@ -159,6 +171,9 @@ const admin = {
         },
         create(data: any) {
             return Post('/api/admin/node', data);
+        },
+        listAllocations(id: number) {
+            return Get('/api/admin/node/' + id + '/allocations', {});
         },
         detail(id: number) {
             return Get('/api/admin/node/' + id, {});
@@ -227,6 +242,9 @@ const admin = {
         },
         create(data: any) {
             return Post('/api/admin/app', data);
+        },
+        listVersions(id: number) {
+            return Get('/api/admin/app/' + id + '/versions', {});
         },
         detail(id: number) {
             return Get('/api/admin/app/' + id, {});

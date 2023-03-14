@@ -43,7 +43,7 @@ const router = createRouter({
                 path: 'ins',
                 children: [{
                     path: ':insId?',
-                    name: 'admin.instance',
+                    name: 'admin.instance.index',
                     component: () => import('@/layouts/Admin/Instance/PInstanceIndex.vue')
                 }]
             }, {
