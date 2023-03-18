@@ -22,6 +22,7 @@ const initData = {
     images: '[""]',
     config: '{}',
     startup: '',
+    stop: '',
     skip_install: false,
     install_image: '',
     install_script: '',
@@ -133,6 +134,10 @@ const tab = ref('general');
 
                 <n-form-item label="启动命令" v-if="tab === 'runtime'">
                     <n-input v-model:value="data.startup" placeholder="输入启动命令"/>
+                </n-form-item>
+
+                <n-form-item label="关机命令" v-if="tab === 'runtime'">
+                    <n-input v-model:value="data.stop" placeholder="输入关机命令"/>
                 </n-form-item>
 
                 <n-form-item label="目录映射" v-if="tab === 'runtime'">
