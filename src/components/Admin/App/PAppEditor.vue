@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import {computed, ref, watch} from "vue";
-import {admin} from "@/class/Client";
-import {useMessage} from "naive-ui";
+import {computed, ref, watch} from 'vue';
+import {admin} from '@/class/Client';
+import {useMessage} from 'naive-ui';
 import type {MentionOption} from 'naive-ui';
-import {DataPath} from "@/class/DataPath";
-import AllowSubmit from "@/components/AllowSubmit.vue";
-import PSelector from "@/components/PSelector.vue";
-import PSwitch from "@/components/PSwitch.vue";
+import {DataPath} from '@/class/DataPath';
+import AllowSubmit from '@/components/AllowSubmit.vue';
+import PSelector from '@/components/PSelector.vue';
+import PSwitch from '@/components/PSwitch.vue';
 
 const props = defineProps(['id']);
 const emits = defineEmits(['update:id', 'reload']);
@@ -17,6 +17,7 @@ const initData = {
     game_id: '',
     name: '',
     description: '',
+    os: '',
     data_path: '{"":""}',
     working_path: '',
     images: '[""]',
@@ -128,6 +129,15 @@ const tab = ref('general');
                     <n-input v-model:value="data.description" placeholder="输入镜像简介" type="textarea"/>
                 </n-form-item>
 
+                <n-form-item label="操作系统" v-if="tab === 'general'">
+                    <n-radio :checked="data.os === 'linux'" value="linux" name="os" @change="data.os = 'linux'">
+                        Linux
+                    </n-radio>
+                    <n-radio :checked="data.os === 'windows'" value="windows" name="os" @change="data.os = 'windows'">
+                        Windows
+                    </n-radio>
+                </n-form-item>
+
                 <n-form-item label="所属游戏" v-if="tab === 'general'">
                     <PSelector v-model="data.game_id" :list="games"/>
                 </n-form-item>
@@ -183,7 +193,10 @@ const tab = ref('general');
 
             <template #footer>
                 <n-button type="error" ghost @click="actions.delete()" v-if="!create">删除</n-button>
-                <n-button type="primary" text-color="white" @click="actions.confirm()">{{ create ? '创建' : '修改' }}</n-button>
+                <n-button type="primary" text-color="white" @click="actions.confirm()">{{
+                        create ? '创建' : '修改'
+                    }}
+                </n-button>
             </template>
         </n-drawer-content>
     </n-drawer>
