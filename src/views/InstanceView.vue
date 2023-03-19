@@ -19,7 +19,8 @@ const layoutName = computed(() => {
     return {
         'instance.detail': '实例信息',
         'instance.console': '控制台',
-        'instance.file': '文件管理'
+        'instance.file': '文件管理',
+        'instance.action': '实例操作'
     }[routeName.value];
 });
 const router = useRouter();
@@ -85,6 +86,9 @@ const tab = computed({
                     </n-tab>
                     <n-tab name="instance.file">
                         文件管理
+                    </n-tab>
+                    <n-tab name="instance.action">
+                        实例操作
                     </n-tab>
                 </n-tabs>
             </template>

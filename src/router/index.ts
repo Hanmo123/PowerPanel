@@ -31,6 +31,10 @@ const router = createRouter({
                 path: 'file',
                 name: 'instance.file',
                 component: () => import('@/layouts/Instance/PFile.vue')
+            }, {
+                path: 'action',
+                name: 'instance.action',
+                component: () => import('@/layouts/Instance/PAction.vue')
             }]
         }, {
             path: '/admin',

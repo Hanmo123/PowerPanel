@@ -124,6 +124,9 @@ const ins = {
         save(insId: number, path: string, content: string) {
             return Post('/api/public/ins/' + insId + '/files/save', {path, content});
         }
+    },
+    reinstall(insId: number) {
+        return Get('/api/public/ins/' + insId + '/reinstall', {});
     }
 }
 
