@@ -17,6 +17,7 @@ const initData = {
     name: '',
     description: '',
     is_suspended: 0,
+    user_id: '',
     node_id: '',
     node_allocation_id: '',
     app_id: '',
@@ -30,6 +31,7 @@ const initData = {
     updated_at: 0
 };
 const data = ref(initData);
+const users = ref<MentionOption[]>();
 const nodes = ref<MentionOption[]>();
 const apps = ref<MentionOption[]>();
 const images = ref<DropdownOption[]>([]);
@@ -41,6 +43,11 @@ const actions = {
         actions.load();
     },
     load() {
+        admin.user.list().then(res => {
+            users.value = res.data.data.map((v: { id: number, name: string }) => {
+                return {label: v.id + '-' + v.name, value: v.id};
+            });
+        });
         admin.node.list().then(res => {
             nodes.value = res.data.data.map((v: { id: number, name: string }) => {
                 return {label: v.id + '-' + v.name, value: v.id};
@@ -130,6 +137,10 @@ watch(() => props.id, (v) => !v || actions.init());
 
                 <n-form-item label="实例简介">
                     <n-input v-model:value="data.description" placeholder="输入实例简介" type="textarea"/>
+                </n-form-item>
+
+                <n-form-item label="所属用户">
+                    <PSelector :list="users" v-model="data.user_id"/>
                 </n-form-item>
 
                 <n-form-item label="节点">
