@@ -189,8 +189,8 @@ const admin = {
         }
     },
     user: {
-        list() {
-            return Get('/api/admin/user', {});
+        list(params: any) {
+            return Get('/api/admin/user', params ?? {});
         },
         create(data: any) {
             return Post('/api/admin/user', data);

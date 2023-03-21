@@ -17,7 +17,7 @@ const initData = {
     name: '',
     description: '',
     is_suspended: 0,
-    user_id: '',
+    user_id: 0,
     node_id: '',
     node_allocation_id: '',
     app_id: '',
@@ -31,7 +31,8 @@ const initData = {
     updated_at: 0
 };
 const data = ref(initData);
-const users = ref<MentionOption[]>();
+const user = ref('@');
+const users = ref<MentionOption[]>([]);
 const nodes = ref<MentionOption[]>();
 const apps = ref<MentionOption[]>();
 const images = ref<DropdownOption[]>([]);
@@ -43,11 +44,6 @@ const actions = {
         actions.load();
     },
     load() {
-        admin.user.list().then(res => {
-            users.value = res.data.data.map((v: { id: number, name: string }) => {
-                return {label: v.id + '-' + v.name, value: v.id};
-            });
-        });
         admin.node.list().then(res => {
             nodes.value = res.data.data.map((v: { id: number, name: string }) => {
                 return {label: v.id + '-' + v.name, value: v.id};
@@ -107,12 +103,29 @@ const actions = {
                 return {label: v.id + '-' + v.alias + ':' + v.port, value: v.id};
             });
         });
+    },
+    onUserSelect(option: MentionOption) {
+        data.value.user_id = option.uid as unknown as number;
+        console.log(option.uid);
     }
 };
 const width: number = window.innerWidth;
 const create = computed(() => props.id == 'create');
 
 watch(() => props.id, (v) => !v || actions.init());
+watch(() => user.value, (v: string) => {
+    if (!v.length) user.value = '@';
+    if (v.length > 3) {
+        if (users.value!.length) return;
+        admin.user.list({name: v.substring(1)}).then(res => {
+            users.value = res.data.data.map((v: { id: number, name: string }) => {
+                return {label: v.name, value: v.name, uid: v.id};
+            });
+        });
+    } else {
+        users.value = [];
+    }
+})
 </script>
 
 <template>
@@ -140,7 +153,11 @@ watch(() => props.id, (v) => !v || actions.init());
                 </n-form-item>
 
                 <n-form-item label="所属用户">
-                    <PSelector :list="users" v-model="data.user_id"/>
+                    <n-mention v-model:value="user" :options="users" default-value="@" :on-select="actions.onUserSelect">
+                        <template #empty>
+                            {{ user.length > 3 ? '无结果' : '输入至少3个字符以检索' }}
+                        </template>
+                    </n-mention>
                 </n-form-item>
 
                 <n-form-item label="节点">
