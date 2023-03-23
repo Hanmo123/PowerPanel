@@ -175,8 +175,8 @@ const admin = {
         create(data: any) {
             return Post('/api/admin/node', data);
         },
-        listAllocations(id: number) {
-            return Get('/api/admin/node/' + id + '/allocations', {});
+        listAllocations(id: number, params?: object) {
+            return Get('/api/admin/node/' + id + '/allocations', params ?? {});
         },
         detail(id: number) {
             return Get('/api/admin/node/' + id, {});
@@ -189,7 +189,7 @@ const admin = {
         }
     },
     user: {
-        list(params: any) {
+        list(params?: object) {
             return Get('/api/admin/user', params ?? {});
         },
         create(data: any) {

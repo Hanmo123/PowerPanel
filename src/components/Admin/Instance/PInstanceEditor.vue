@@ -98,7 +98,7 @@ const actions = {
         data.value.image = option.value as string;
     },
     onNodeSelect(option: MentionOption) {
-        admin.node.listAllocations(option.value! as unknown as number).then(res => {
+        admin.node.listAllocations(option.value! as unknown as number, {unused: 1}).then(res => {
             allocations.value = res.data.data.map((v: { id: number, alias: string, port: number }) => {
                 return {label: v.id + '-' + v.alias + ':' + v.port, value: v.id};
             });
@@ -153,7 +153,8 @@ watch(() => user.value, (v: string) => {
                 </n-form-item>
 
                 <n-form-item label="所属用户">
-                    <n-mention v-model:value="user" :options="users" default-value="@" :on-select="actions.onUserSelect">
+                    <n-mention v-model:value="user" :options="users" default-value="@"
+                               :on-select="actions.onUserSelect">
                         <template #empty>
                             {{ user.length > 3 ? '无结果' : '输入至少3个字符以检索' }}
                         </template>

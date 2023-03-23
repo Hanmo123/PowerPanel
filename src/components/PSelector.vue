@@ -18,5 +18,9 @@ const model = computed({
 </script>
 
 <template>
-    <n-mention v-model:value="model" :options="list" default-value="#" prefix="#" :on-select="onSelect"/>
+    <n-mention v-model:value="model" :options="list" default-value="#" prefix="#" :on-select="onSelect">
+        <template #empty>
+            无可选项
+        </template>
+    </n-mention>
 </template>
