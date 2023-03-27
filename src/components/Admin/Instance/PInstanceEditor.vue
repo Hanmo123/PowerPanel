@@ -62,6 +62,7 @@ const actions = {
             admin.user.detail(data.value.relationship.user_id).then(res => {
                 user.value = '@' + res.data.attributes.name;
             });
+            this.onNodeSelect({value: data.value.node_id} as MentionOption);
         });
     },
     confirm() {
@@ -167,10 +168,11 @@ watch(() => user.value, (v: string) => {
                 </n-form-item>
 
                 <n-form-item label="节点">
-                    <PSelector :list="nodes" v-model="data.node_id" :onSelect="actions.onNodeSelect"/>
+                    <PSelector :list="nodes" v-model="data.node_id" :onSelect="actions.onNodeSelect"
+                               :disabled="!create"/>
                 </n-form-item>
 
-                <n-form-item label="节点端口" v-if="data.node_id">
+                <n-form-item label="主要端口" v-if="data.node_id">
                     <PSelector :list="allocations" v-model="data.node_allocation_id"/>
                 </n-form-item>
 
