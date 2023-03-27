@@ -17,7 +17,9 @@ const initData = {
     name: '',
     description: '',
     is_suspended: 0,
-    user_id: 0,
+    relationship: {
+        user_id: 0
+    },
     node_id: '',
     node_allocation_id: '',
     app_id: '',
@@ -57,6 +59,9 @@ const actions = {
         if (create.value) return;
         admin.ins.detail(props.id).then(res => {
             data.value = res.data.attributes;
+            admin.user.detail(data.value.relationship.user_id).then(res => {
+                user.value = '@' + res.data.attributes.name;
+            });
         });
     },
     confirm() {
@@ -105,7 +110,7 @@ const actions = {
         });
     },
     onUserSelect(option: MentionOption) {
-        data.value.user_id = option.uid as unknown as number;
+        data.value.relationship.user_id = option.uid as unknown as number;
         console.log(option.uid);
     }
 };
@@ -125,7 +130,7 @@ watch(() => user.value, (v: string) => {
     } else {
         users.value = [];
     }
-})
+});
 </script>
 
 <template>
