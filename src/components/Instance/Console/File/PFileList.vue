@@ -1,20 +1,20 @@
 <script lang="ts" setup>
-import {h, nextTick, onMounted, ref} from "vue";
+import {h, nextTick, onMounted, ref} from 'vue';
 import type {DataTableColumns, DataTableRowKey, DropdownOption} from 'naive-ui';
-import {NTime, useMessage} from "naive-ui";
-import {ins} from "@/class/Client";
-import {Base64} from "@/class/Base64";
-import {useRoute} from "vue-router";
-import {ByteFormat} from "@/class/ByteFormat";
-import LoadingBar from "@/components/LoadingBar.vue";
-import PRename from "@/components/Instance/Console/File/Modal/PRename.vue";
-import PDelete from "@/components/Instance/Console/File/Modal/PDelete.vue";
-import PPermission from "@/components/Instance/Console/File/Modal/PPermission.vue";
-import PUpload from "@/components/Instance/Console/File/Modal/PUpload.vue";
-import PCreate from "@/components/Instance/Console/File/Modal/PCreate.vue";
-import PFileEditor from "@/components/Instance/Console/File/PFileEditor.vue";
+import {NTime, useMessage} from 'naive-ui';
+import {ins} from '@/class/Client';
+import {Base64} from '@/class/Base64';
+import {useRoute} from 'vue-router';
+import {ByteFormat} from '@/class/ByteFormat';
+import LoadingBar from '@/components/LoadingBar.vue';
+import PRename from '@/components/Instance/Console/File/Modal/PRename.vue';
+import PDelete from '@/components/Instance/Console/File/Modal/PDelete.vue';
+import PPermission from '@/components/Instance/Console/File/Modal/PPermission.vue';
+import PUpload from '@/components/Instance/Console/File/Modal/PUpload.vue';
+import PCreate from '@/components/Instance/Console/File/Modal/PCreate.vue';
+import PFileEditor from '@/components/Instance/Console/File/PFileEditor.vue';
 import AceModes from '@/config/ace.modes.json';
-import {useInstanceDetail} from "@/stores/Instance/DetailStore";
+import {useInstanceDetail} from '@/stores/Instance/DetailStore';
 
 type Row = {
     upper: boolean | null,
@@ -158,8 +158,9 @@ const actions = {
                 insId, Base64.encode(path.value), targets
             ).then(() => {
                 actions.reload();
-                if (wait) wait.destroy();
                 message.success('压缩操作成功');
+            }).finally(() => {
+                if (wait) wait.destroy();
             });
         },
         delete: () => modals.value.delete = true,
@@ -174,8 +175,9 @@ const actions = {
             const wait = message.loading('解压缩操作已开始，请耐心等待', {duration: 0});
             ins.file.decompress(insId, Base64.encode(path.value + Base64.decode(selected.value[0].base64!!))).then(() => {
                 actions.reload();
-                if (wait) wait.destroy();
                 message.success('解压缩操作成功');
+            }).finally(() => {
+                if (wait) wait.destroy();
             });
         },
         create: () => modals.value.create = true,
