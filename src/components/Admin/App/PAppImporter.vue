@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import {UploadFileInfo, useMessage} from 'naive-ui';
-import {ref} from 'vue';
+import {ref, watch} from 'vue';
 import {admin} from '@/class/Client';
 import PSelector from '@/components/PSelector.vue';
 
-const emits = defineEmits(['reload']);
+const props = defineProps(['show']);
+const emits = defineEmits(['reload', 'update:show']);
 const message = useMessage();
 const gameId = ref('');
 const content = ref();
@@ -22,18 +23,19 @@ function onSubmit() {
     });
 }
 
-async function onLoadList() {
-    list.value = (await admin.app.game.list()).data.data.map((v: { id: number, name: string }) => {
-        return {label: v.id + '-' + v.name, value: v.id};
-    });
-}
+watch(() => props.show, async (v: boolean) => {
+    if (v && !list.value.length)
+        list.value = (await admin.app.game.list()).data.data.map((v: { id: number, name: string }) => {
+            return {label: v.id + '-' + v.name, value: v.id};
+        });
+});
 </script>
 
 <template>
     <n-modal preset="dialog" title="导入镜像" positive-text="导入" :show-icon="false" :auto-focus="false"
-             @positive-click="onSubmit">
+             @positive-click="onSubmit" :show="show" @update:show="(v: boolean) => emits('update:show', v)">
         <n-form label-placement="left" class="mt-6 -mb-4">
-            <n-form-item label="所属游戏" @click="onLoadList">
+            <n-form-item label="所属游戏">
                 <PSelector v-model="gameId" :list="list"/>
             </n-form-item>
             <n-form-item label="镜像文件">
