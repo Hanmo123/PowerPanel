@@ -260,6 +260,9 @@ const admin = {
         },
         export(id: number) {
             return Get('/api/admin/app/' + id + '/export', {});
+        },
+        import(game_id: number, content: string) {
+            return Post('/api/admin/app/import', {game_id, content});
         }
     }
 }

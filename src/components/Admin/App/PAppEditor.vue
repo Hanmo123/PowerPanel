@@ -42,7 +42,7 @@ const actions = {
     load() {
         admin.app.game.list().then(res => {
             games.value = res.data.data.map((v: { id: number, name: string }) => {
-                return {label: v.id + '-' + v.name, value: v.id};
+                    return {label: v.id + '-' + v.name, value: v.id};
             });
         });
         if (create.value) {
@@ -82,6 +82,8 @@ const actions = {
             );
             element.download = content.name + '.json';
             element.click();
+            URL.revokeObjectURL(element.href);
+            element.remove();
         });
     },
     close(msg?: string, reload?: boolean) {
