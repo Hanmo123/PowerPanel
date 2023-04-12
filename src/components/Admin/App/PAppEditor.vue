@@ -71,6 +71,19 @@ const actions = {
             actions.close('镜像删除成功。', true);
         });
     },
+    export() {
+        admin.app.export(props.id).then(res => {
+            const content = JSON.parse(res.data.attributes.content);
+            const element = document.createElement('a');
+            element.href = URL.createObjectURL(
+                new Blob([
+                    JSON.stringify(content, null, 4)
+                ], {type: 'application.json'})
+            );
+            element.download = content.name + '.json';
+            element.click();
+        });
+    },
     close(msg?: string, reload?: boolean) {
         if (msg) message.success(msg);
         if (reload) emits('reload');
@@ -193,6 +206,7 @@ const tab = ref('general');
 
             <template #footer>
                 <n-button type="error" ghost @click="actions.delete()" v-if="!create">删除</n-button>
+                <n-button type="primary" ghost @click="actions.export()" v-if="!create">导出</n-button>
                 <n-button type="primary" text-color="white" @click="actions.confirm()">{{
                         create ? '创建' : '修改'
                     }}

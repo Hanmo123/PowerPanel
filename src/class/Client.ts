@@ -257,6 +257,9 @@ const admin = {
         },
         delete(id: number) {
             return Delete('/api/admin/app/' + id, {});
+        },
+        export(id: number) {
+            return Get('/api/admin/app/' + id + '/export', {});
         }
     }
 }
